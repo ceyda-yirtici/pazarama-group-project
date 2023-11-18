@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.moviesapp.databinding.ListDetailScreenBinding
 import com.example.moviesapp.presentation.viewmodel.ListDetailViewModel
 import com.example.moviesapp.util.downloadUrl
@@ -39,16 +40,22 @@ class ListDetailFragment: Fragment() {
 
     private fun observeLiveData(){
         viewModel.isLoading.observe(viewLifecycleOwner){isLoading->
-
+            binding.detailProgressbar.visibility = if(isLoading) View.VISIBLE else View.GONE
+            binding.detailError.visibility = View.GONE
         }
 
         viewModel.error.observe(viewLifecycleOwner){error->
-
+            binding.detailError.visibility = if(error != null) View.VISIBLE else View.GONE
+            if(error != null){
+                binding.detailError.text = error
+            }
         }
 
         viewModel.movieDetail.observe(viewLifecycleOwner){ movieDetail->
             if(movieDetail == null) return@observe
-            //binding.detailMovie.downloadUrl(movieDetail.Poster)
+            binding.detailError.visibility = View.GONE
+
+            binding.detailMovie.downloadUrl(movieDetail.Poster, CircularProgressDrawable(requireContext()))
             binding.detailTitle.text = movieDetail.Title
             binding.detailYear.text = movieDetail.Year
             binding.detailActors.text = movieDetail.Actors
