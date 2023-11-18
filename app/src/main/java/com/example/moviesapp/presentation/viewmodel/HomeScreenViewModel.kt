@@ -9,6 +9,8 @@ import com.example.moviesapp.domain.repository.MoviesRepository
 import com.example.moviesapp.util.Resource
 import com.example.moviesapp.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,8 +29,12 @@ class HomeScreenViewModel @Inject constructor(
     val error: LiveData<String?> get() = mutableError
 
 
+    private var loadingJob: Job? = null
+
     fun loadData(query: String){
-        viewModelScope.launch {
+        loadingJob?.cancel()
+        loadingJob = viewModelScope.launch {
+            delay(300)
             mutableIsLoading.value = true
             val result = moviesRepository.getDataWithName(query)
             when(result.status){
