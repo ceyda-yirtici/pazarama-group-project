@@ -28,7 +28,6 @@ class MovieAdapter (var mContext: Context,
         val movieRow = holder.binding
         movieRow.textViewTitle.text = movie.Title
         movieRow.textViewYear.text = movie.Year
-
         movieRow.cardViewMovie.setOnClickListener {
             val goTo = HomeScreenFragmentDirections.homeToDetail(movieId = movie.imdbID)
             Navigation.findNavController(it).navigate(goTo)
