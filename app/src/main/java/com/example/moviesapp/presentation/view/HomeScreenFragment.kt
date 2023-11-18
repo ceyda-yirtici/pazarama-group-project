@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.moviesapp.databinding.FragmentHomeScreenBinding
 import com.example.moviesapp.presentation.viewmodel.HomeScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +57,7 @@ class HomeScreenFragment : Fragment() {
 
     private fun initView() {
 
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.homeScreenFragmentRV.layoutManager = layoutManager
         binding.homeScreenFragmentRV.adapter = movieAdapter
 
