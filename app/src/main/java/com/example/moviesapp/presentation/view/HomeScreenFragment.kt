@@ -34,6 +34,14 @@ class HomeScreenFragment : Fragment() {
         initView()
         initListener()
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.homeScreenFragmentRV.visibility = View.GONE
+            binding.homeScreenError.visibility = View.GONE
+            binding.homeScreenProgressBar.visibility = View.VISIBLE
+            initView()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
         binding.searchView.setOnQueryTextListener (object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -67,6 +75,24 @@ class HomeScreenFragment : Fragment() {
     private fun initListener() {
         viewModel.movieList.observe(viewLifecycleOwner) {
             movieAdapter.updateMovieList(it.Search)
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it){
+                    binding.homeScreenProgressBar.visibility = View.VISIBLE
+                    binding.homeScreenFragmentRV.visibility = View.GONE
+                    binding.homeScreenError.visibility = View.GONE
+                } else {
+                    binding.homeScreenFragmentRV.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.homeScreenError.visibility = View.VISIBLE
+            }
         }
     }
 
