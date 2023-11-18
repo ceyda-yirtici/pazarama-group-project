@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.moviesapp.domain.model.MovieDetails
 import com.example.moviesapp.domain.repository.MoviesRepository
 import com.example.moviesapp.util.Resource
 import com.example.moviesapp.util.Status
@@ -16,8 +17,8 @@ class ListDetailViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ): ViewModel() {
 
-    private val mutableMovieDetail = MutableLiveData<Any?>()
-    val movieDetail: LiveData<Any?> get() = mutableMovieDetail
+    private val mutableMovieDetail = MutableLiveData<MovieDetails?>()
+    val movieDetail: LiveData<MovieDetails?> get() = mutableMovieDetail
 
     private val mutableIsLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = mutableIsLoading
@@ -33,6 +34,10 @@ class ListDetailViewModel @Inject constructor(
             when(result.status){
                 Status.SUCCESS -> {
                     mutableIsLoading.value = false
+                    mutableMovieDetail.value = result.data
+                    if(result.data == null){
+                        mutableError.value = "Unexpected error"
+                    }
                 }
                 Status.ERROR -> {
                     mutableError.value = result.message
