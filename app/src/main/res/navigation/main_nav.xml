@@ -11,13 +11,14 @@
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen" >
         <action
-            android:id="@+id/action_homeScreenFragment_to_listDetailFragment"
+            android:id="@+id/homeToDetail"
             app:destination="@id/listDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/listDetailFragment"
         android:name="com.example.moviesapp.presentation.view.ListDetailFragment"
         android:label="ListDetailFragment" >
-        <argument android:name="movieId" />
+        <argument android:name="movieId"
+            app:argType="string" />
     </fragment>
 </navigation>
