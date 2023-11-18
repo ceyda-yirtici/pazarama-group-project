@@ -1,6 +1,7 @@
 package com.example.moviesapp.data.repository
 
 import com.example.moviesapp.data.service.MoviesAPI
+import com.example.moviesapp.domain.model.MovieDetails
 import com.example.moviesapp.domain.model.MovieList
 import com.example.moviesapp.domain.model.Search
 import com.example.moviesapp.domain.repository.MoviesRepository
@@ -24,7 +25,7 @@ class MoviesRepositoryImpl @Inject constructor (val api: MoviesAPI) : MoviesRepo
         }
     }
 
-    override suspend fun getMovieDetails(imdbId: String): Resource<Search> {
+    override suspend fun getMovieDetails(imdbId: String): Resource<MovieDetails> {
         return try {
             val response = api.getMovieDetails(imdbId)
             if (response.isSuccessful) {
