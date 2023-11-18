@@ -32,7 +32,7 @@ object NetworkModule {
     @ViewModelScoped
     fun provideMoviesRepository(
         apiService: MoviesAPI,
-    ): MoviesRepositoryImpl = MoviesRepositoryImpl(apiService)
+    ): MoviesRepository = MoviesRepositoryImpl(apiService)
 
 
 }
