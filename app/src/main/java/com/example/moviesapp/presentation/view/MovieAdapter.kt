@@ -1,5 +1,6 @@
 package com.example.moviesapp.presentation.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,15 +9,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.databinding.MovieRowBinding
 import com.example.moviesapp.domain.model.Search
 
-class MovieAdapter (var mContext: Context,
-                    var movieList: List<Search>)
-    :RecyclerView.Adapter<MovieAdapter.MovieHolder>(){
+class MovieAdapter
+    : RecyclerView.Adapter<MovieAdapter.MovieHolder>() {
 
     inner class MovieHolder(var binding: MovieRowBinding) : RecyclerView.ViewHolder(binding.root)
 
+    private var movieList: List<Search> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-        val binding = MovieRowBinding.inflate(LayoutInflater.from(mContext), parent,false)
+        val binding = MovieRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieHolder(binding)
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateMovieList(item: List<Search>) {
+        item.let {
+            movieList = item
+        }
+        notifyDataSetChanged()
+
     }
 
     override fun getItemCount(): Int {

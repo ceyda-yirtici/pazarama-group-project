@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.moviesapp.databinding.ListDetailScreenBinding
 import com.example.moviesapp.presentation.viewmodel.ListDetailViewModel
 import com.example.moviesapp.util.downloadUrl
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListDetailFragment: Fragment() {
 
     private lateinit var viewModel : ListDetailViewModel
