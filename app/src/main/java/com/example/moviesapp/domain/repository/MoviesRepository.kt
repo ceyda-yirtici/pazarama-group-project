@@ -7,8 +7,6 @@ import com.example.moviesapp.util.Resource
 import retrofit2.http.Query
 
 interface MoviesRepository {
-
     suspend fun getDataWithName(movieName: String = "batman"): Resource<MovieList>
-
-    suspend fun getMovieDetails(@Query("i")  imdbId:String): Resource<MovieDetails>
+    suspend fun getMovieDetails(imdbId:String): Resource<MovieDetails>
 }
