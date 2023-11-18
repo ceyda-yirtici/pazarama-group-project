@@ -1,10 +1,12 @@
 package com.example.moviesapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviesapp.domain.model.MovieList
+import com.example.moviesapp.domain.model.Search
 import com.example.moviesapp.domain.repository.MoviesRepository
 import com.example.moviesapp.util.Resource
 import com.example.moviesapp.util.Status
@@ -22,13 +24,13 @@ class HomeScreenViewModel @Inject constructor(
     private var loadingJob: Job? = null
 
 
-    private val mutableMovieList = MutableLiveData<MovieList>()
-    val movieList: LiveData<MovieList> get() = mutableMovieList
+    private val mutableMovieList = MutableLiveData<List<Search>>()
+    val movieList: LiveData<List<Search>> get() = mutableMovieList
 
-    private val mutableIsLoading = MutableLiveData<Boolean>()
+    private val mutableIsLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = mutableIsLoading
 
-    private val mutableError = MutableLiveData<String?>()
+    private val mutableError = MutableLiveData<String?>("Enter a query")
     val error: LiveData<String?> get() = mutableError
 
 
@@ -36,7 +38,7 @@ class HomeScreenViewModel @Inject constructor(
     fun loadData(query: String){
         loadingJob?.cancel()
         loadingJob = viewModelScope.launch {
-            delay(300)
+            delay(500)
             mutableIsLoading.value = true
             val result = moviesRepository.getDataWithName(query)
             when(result.status){
@@ -49,6 +51,15 @@ class HomeScreenViewModel @Inject constructor(
                 }
                 Status.LOADING -> {
                     mutableIsLoading.value = true
+                }
+            }
+            if(query.isBlank()){
+                mutableMovieList.value = emptyList()
+                mutableIsLoading.value = false
+                mutableError.value = "Enter a query"
+            }else{
+                result.data?.Search?.let { data->
+                    mutableMovieList.value = data
                 }
             }
         }

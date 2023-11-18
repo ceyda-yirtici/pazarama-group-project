@@ -1,11 +1,14 @@
 package com.example.moviesapp.data.repository
 
+import android.util.Log
 import com.example.moviesapp.data.service.MoviesAPI
 import com.example.moviesapp.domain.model.MovieDetails
 import com.example.moviesapp.domain.model.MovieList
 import com.example.moviesapp.domain.model.Search
 import com.example.moviesapp.domain.repository.MoviesRepository
 import com.example.moviesapp.util.Resource
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 
 class MoviesRepositoryImpl @Inject constructor (val api: MoviesAPI) : MoviesRepository  {
@@ -20,7 +23,11 @@ class MoviesRepositoryImpl @Inject constructor (val api: MoviesAPI) : MoviesRepo
             } else {
                 Resource.error("Response successful değil!",null)
             }
-        } catch (e: Exception) {
+        }
+        catch (e: CancellationException){
+            throw e
+        }
+        catch (e: Exception) {
             Resource.error("Bütün olay patladı!",null)
         }
     }

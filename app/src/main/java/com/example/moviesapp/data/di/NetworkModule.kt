@@ -28,8 +28,8 @@ object NetworkModule {
             .create(MoviesAPI::class.java)
     }
 
+    @Singleton
     @Provides
-    @ViewModelScoped
     fun provideMoviesRepository(
         apiService: MoviesAPI,
     ): MoviesRepository = MoviesRepositoryImpl(apiService)

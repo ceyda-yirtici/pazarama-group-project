@@ -1,6 +1,7 @@
 package com.example.moviesapp.presentation.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -75,7 +76,7 @@ class HomeScreenFragment : Fragment() {
 
     private fun initListener() {
         viewModel.movieList.observe(viewLifecycleOwner) {
-            movieAdapter.updateMovieList(it.Search)
+            movieAdapter.updateMovieList(it)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
@@ -86,6 +87,7 @@ class HomeScreenFragment : Fragment() {
                     binding.homeScreenError.visibility = View.GONE
                 } else {
                     binding.homeScreenFragmentRV.visibility = View.VISIBLE
+                    binding.homeScreenProgressBar.visibility = View.GONE
                 }
             }
         }
@@ -93,8 +95,10 @@ class HomeScreenFragment : Fragment() {
         viewModel.error.observe(viewLifecycleOwner) {
             it?.let {
                 binding.homeScreenError.visibility = View.VISIBLE
+                binding.homeScreenError.text = it
             }
         }
+
     }
 
 
