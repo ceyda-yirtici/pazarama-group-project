@@ -19,6 +19,9 @@ class HomeScreenViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ): ViewModel() {
 
+    private var loadingJob: Job? = null
+
+
     private val mutableMovieList = MutableLiveData<MovieList>()
     val movieList: LiveData<MovieList> get() = mutableMovieList
 
@@ -29,7 +32,6 @@ class HomeScreenViewModel @Inject constructor(
     val error: LiveData<String?> get() = mutableError
 
 
-    private var loadingJob: Job? = null
 
     fun loadData(query: String){
         loadingJob?.cancel()
